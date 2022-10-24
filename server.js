@@ -47,7 +47,6 @@ async function weekScrapper(num) {
                         keys = keysHappened
                     }
                 $(parentElem).children().each((childId, childElem) => {
-                    console.log($(childElem).children().length>3)
                     const value = $(childElem).text().trim();
                     const img = $(childElem).find('figure').find('img').attr('data-lazy');
                     if(childId<2){
@@ -74,8 +73,8 @@ app.get("/api", async (req,res) => {
         for (let i = 1; i<=18; i++){
             arr.push(i)
         }
-        Promise.all(arr.map(x=>{
-            weekScrapper(x);
+        Promise.all(arr.map(async x=>{
+            return await weekScrapper(x);
         })).then((values) => {
                 return res.status(200).json({
                     result: values,
